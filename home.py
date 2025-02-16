@@ -80,9 +80,61 @@ if page == "Upload sale data":
 elif page == "Trang 2":
     st.title("📊 Trang 2")
     st.sidebar.subheader("⚙️ Cài đặt Trang 2")
-    slider_value = st.sidebar.slider("Điều chỉnh giá trị", 0, 100, 50)
-    st.write(f"🔹 Giá trị hiện tại: {slider_value}")
-    st.write("💡 Đây là nội dung trang 2.")
+    #slider_value = st.sidebar.slider("Điều chỉnh giá trị", 0, 100, 50)
+    #st.write(f"🔹 Giá trị hiện tại: {slider_value}")
+    #st.write("💡 Đây là nội dung trang 2.")
+
+    # ✅ Lấy dữ liệu từ MySQL
+    def get_data():
+        conn = create_connection()
+        if conn is not None:
+            query = "SELECT * FROM Orders"  # Thay bằng tên bảng
+            df = pd.read_sql(query, conn)
+            conn.close()
+            return df
+        return pd.DataFrame()
+
+    import streamlit.components.v1 as components
+
+    # ✅ Xóa dòng theo ID
+    def delete_data(row_id):
+        conn = create_connection()
+        if conn is not None:
+            cursor = conn.cursor()
+            cursor.execute(f"DELETE FROM Orders WHERE Id = {row_id}")  # Thay bằng tên bảng
+            conn.commit()
+            conn.close()
+            st.experimental_rerun()  # Refresh lại trang sau khi xóa
+    
+    # ✅ Hiển thị dữ liệu với nút XÓA
+    df = get_data()
+    
+    if not df.empty:
+        df["Xóa"] = df["Id"].apply(lambda x: f'<button onclick="delete_row({x})">🗑️</button>')
+        st.write("### Dữ liệu từ MySQL")
+        st.write(df.to_html(escape=False), unsafe_allow_html=True)
+        
+        # ✅ JavaScript để xử lý xóa
+        components.html(
+            """
+            <script>
+            function delete_row(row_id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/?delete=" + row_id, true);
+                xhr.send();
+                location.reload();
+            }
+            </script>
+            """,
+            height=0,
+        )
+    
+    # ✅ Kiểm tra URL để thực hiện xóa
+    if "delete" in st.experimental_get_query_params():
+        row_id = st.experimental_get_query_params()["delete"][0]
+        delete_data(row_id)
+
+
 
 # ================== TRANG 3 ==================
 elif page == "Trang 3":
