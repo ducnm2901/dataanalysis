@@ -1,1 +1,2 @@
 # dataanalysis
+mysql-connector-python
