@@ -88,7 +88,7 @@ elif page == "Trang 2":
     def get_data():
         conn = create_connection()
         if conn is not None:
-            query = "SELECT * FROM ten_bang_cua_ban"  # Thay bằng tên bảng của bạn
+            query = "SELECT * FROM Orders"  # Thay bằng tên bảng của bạn
             df = pd.read_sql(query, conn)
             conn.close()
             return df
@@ -99,7 +99,7 @@ elif page == "Trang 2":
         conn = create_connection()
         if conn is not None:
             cursor = conn.cursor()
-            cursor.execute(f"DELETE FROM ten_bang_cua_ban WHERE Id = {row_id}")  # Thay bằng tên bảng của bạn
+            cursor.execute(f"DELETE FROM Orders WHERE Id = {row_id}")  # Thay bằng tên bảng của bạn
             conn.commit()
             conn.close()
             st.success(f"✅ Đã xóa dữ liệu có ID {row_id}")
