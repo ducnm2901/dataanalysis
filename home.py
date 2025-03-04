@@ -4,7 +4,7 @@ import mysql.connector
 from mysql.connector import Error   
 from query_functions import create_connection #view_all_data  # Import hàm từ query.py
 # ================== CẤU HÌNH GIAO DIỆN ==================
-st.set_page_config(page_title="📊 DUC NGUYEN", layout="wide")
+st.set_page_config(page_title="📊 MAAC", layout="wide")
 
 # ================== QUẢN LÝ TRANG ==================
 #st.sidebar.title("Chuyển trang")
