@@ -1,8 +1,8 @@
 import streamlit as st
 
-# Tạo sidebar menu
-st.sidebar.title("📌 Menu Điều Hướng")
-main_page = st.sidebar.radio("Chọn Trang Chính:", ["🏠 Home", "📊 Sale Data", "💸 Expense Data"])
+# Sidebar menu chính
+st.sidebar.title("📌 Menu Chính")
+main_page = st.sidebar.radio("Chọn Trang:", ["🏠 Home", "📊 Sale Data", "💸 Expense Data"])
 
 # =================== TRANG HOME ===================
 if main_page == "🏠 Home":
@@ -11,11 +11,11 @@ if main_page == "🏠 Home":
 
 # =================== TRANG SALE DATA ===================
 elif main_page == "📊 Sale Data":
+    st.sidebar.subheader("🔽 Chọn trang con trong Sale Data:")
+    sale_page = st.sidebar.radio("Chọn mục:", ["📌 Overview", "📦 Product Sales", "🧑‍💼 Customer Analysis"])
+
     st.title("📊 Sale Data")
-
-    # Tạo menu con cho Sale Data
-    sale_page = st.radio("Chọn mục:", ["📌 Overview", "📦 Product Sales", "🧑‍💼 Customer Analysis"])
-
+    
     if sale_page == "📌 Overview":
         st.subheader("📌 Tổng Quan Doanh Số")
         st.write("Trang này hiển thị tổng quan về doanh thu và doanh số.")
@@ -32,5 +32,4 @@ elif main_page == "📊 Sale Data":
 elif main_page == "💸 Expense Data":
     st.title("💸 Expense Data")
     st.write("Trang này hiển thị dữ liệu về chi phí và phân tích chi tiêu.")
-
 
